@@ -1,1 +1,12 @@
+{
+  "name": "nft-uploader-dapp",
+  "version": "1.0.0",
+  "description": "A simple NFT uploader dApp for Arlink deployment",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve ."
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
 
