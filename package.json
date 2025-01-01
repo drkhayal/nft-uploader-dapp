@@ -10,3 +10,7 @@
   "devDependencies": {}
 }
 
+
+"dependencies": {
+  "serve": "^14.0.1"
+}
