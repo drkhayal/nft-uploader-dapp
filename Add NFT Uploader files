@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Uploader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        .container h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .container input[type="file"] {
+            margin: 1rem 0;
+        }
+        .container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .container button:hover {
+            background-color: #45a049;
+        }
+        .status {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Your NFT</h1>
+        <input type="file" id="fileInput" accept="image/*">
+        <button onclick="uploadNFT()">Upload</button>
+        <div class="status" id="status"></div>
+    </div>
+
+    <script>
+        async function uploadNFT() {
+            const fileInput = document.getElementById('fileInput');
+            const status = document.getElementById('status');
+
+            if (!fileInput.files[0]) {
+                status.textContent = "Please select a file first.";
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+            status.textContent = "Uploading...";
+
+            try {
+                const response = await fetch('https://arweave.net/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to upload');
+                }
+
+                const data = await response.json();
+                const fileUrl = `https://arweave.net/${data.id}`;
+
+                status.innerHTML = `Upload successful! <a href="${fileUrl}" target="_blank">View NFT</a>`;
+            } catch (error) {
+                console.error(error);
+                status.textContent = "An error occurred during upload.";
+            }
+        }
+    </script>
+</body>
+</html>
